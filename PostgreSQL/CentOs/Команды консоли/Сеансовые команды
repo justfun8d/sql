@@ -1,0 +1,1 @@
+export PATH="$HOME/../var/www/Shared_folder:$PATH"

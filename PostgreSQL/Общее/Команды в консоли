@@ -1,0 +1,91 @@
+psql -d postgres -U postgres -p 5432 
+
+Проверить возможность подключения через ssh
+service sshd status
+Вывод: active (running)
+
+Проверка работы firewall
+systemctl status firewalld
+Вывод: active (running)
+
+Остановка работы firewall
+systemctl stop firewall
+
+Отключение автозагрузки firewall при запуске ОС
+systemctl disable firewall
+
+Проверка отсутствия правил (проверка отключения firewall)
+iptables -L
+Вывод: везде (policy ACCEPT)
+
+Отключаем selinux
+vi /etc/selinux/config
+в конфиге установить SELINUX=disabled
+для редактирования и ввода Alt+a
+для выхода из режима редактирования esc
+для записи и выхода :wq
+далее необходимо перезагрузиться
+перед перезагрузкой можно обновить OC
+
+Обновить OC
+yum update
+
+
+
+Установка отдельного репозитория с множеством пакетов
+yum install epel-release
+
+yum install vim htop mc tree python39
+
+Установка сетевых утилит
+yum install net-tools
+
+	Можно почитать о репозитории epel
+
+Проверка ip (старая)
+ifconfig
+
+Проверка ip (новая)
+ip addr
+
+
+
+Добавление репозитория с postgresql
+sudo dnf -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+
+Отключаем модуль PostgreSQL в предустановленно по-умолчанию репозитории AppStream
+sudo dnf -qy module disable postgresql
+
+Проверка модулей
+sudo dnf module list | grep postgresql
+
+Инициализируем базу
+sudo /usr/pgsql-13/bin/postgresql-13-setup initdb
+
+Запускаем PostgreSQL и добавляем сервис в автозагрузку
+sudo systemctl enable --now postgresql-13
+
+Проверяем статус
+systemctl status postgresql-13
+
+Устанавливаем пароль для пользователя postgres
+sudo su - postgres 
+psql -c "alter user postgres with password '1'"
+exit
+
+
+Узнать порт PostgreSQL командой:
+grep -H '^port' /etc/postgresql/*/main/postgresql.conf
+
+Проверить текущие сетевые соединения
+nmcli con show
+
+Активировать сетевое соединение
+nmcli con up (network name - first column in "nmcli con show")
+
+Посмотреть ip
+ip address show | grep inet
+
+
+Результат:
+fail: yum update, yum install python39

@@ -1,0 +1,16 @@
+Переключаемся на пользователя postgres
+$ sudo su - postgres
+
+Создаем пользователя БД
+$ createuser userdb
+
+Переключаемся в PostgreSQL shell
+$ psql
+
+Задаем пароль для пользователя БД
+=# ALTER USER userdb WITH ENCRYPTED password 'aaayoupasswdaaa';
+
+Создам базу и задаем владельца базы
+=# CREATE DATABASE mybase WITH ENCODING='UTF8' OWNER=userdb;
+=# \q
+$ exit
